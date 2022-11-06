@@ -2,7 +2,7 @@
 i:             
 .float  0       # i
 iteration:
-.int 50         # Nombre d'itérations
+.int 50        # Nombre d'itérations
 x:
 .float 2       
 y:
@@ -26,8 +26,54 @@ push %ebp       # Prologue
 mov %esp,%ebp
 push %ebx
 
-#votre code
+#movl iteration, %eax
+#addl $1, %eax
 
+#votre code
+xorl %ecx, %ecx
+newTerme :
+cmpl iteration, %ecx
+jz fin
+pushl %ecx
+flds i 
+flds i
+faddp
+flds cte
+faddp 
+flds multiplicateur
+fdivp
+
+#verifier si le terme est pair ou impair
+sar $1, %cl
+jc signedDiv 
+jmp unsignedDiv
+
+signedDiv :
+flds signe2
+fmulp
+flds pi
+faddp 
+fstps pi
+jmp inc_i
+
+unsignedDiv :
+flds pi
+faddp 
+fstps pi
+jmp inc_i
+
+inc_i :
+flds i
+flds cte
+faddp
+fstps i
+popl %ecx
+addl $1, %ecx
+jmp newTerme
+
+
+fin :
+flds pi
 pop %ebx
 pop %ebp
 ret
