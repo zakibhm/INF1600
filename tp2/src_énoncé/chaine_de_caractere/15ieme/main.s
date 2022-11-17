@@ -1,5 +1,5 @@
 string: .asciz "My favourite number is FIFTEEN!\n"
-false : .asciz "le 15e caractère n’est pas une lettre de l’alphabet\n"
+false : .asciz "le 15e caractère n’est pas une lettre de l’alphabet, voici le premier caractère de votre phrase %c\n"
 true : .asciz "Votre 15e caractère est : %c\n"
 
 .text
@@ -8,7 +8,7 @@ true : .asciz "Votre 15e caractère est : %c\n"
 main : 
 push %ebp
 mov %esp,%ebp
-    push %ebx
+push %ebx
 
 #votre code
 movl $string ,%esi
@@ -33,6 +33,7 @@ cmpb $65, (%esi)
 jge isChar 
 
 notChar :
+subl  $14 ,%esi
 pushl (%esi)
 pushl $false
 jmp print
@@ -43,18 +44,7 @@ pushl $true
 
 print :
 call printf
-addl $16, %esp
+addl $8, %esp
+popl %ebx
+popl %ebp
 ret
-
-
-
-
-
-
-
-
-movl %edx, %eax
-movl $0, %edx
-div divisionSur10
-addl %eax, %ebx
-addl %edx, %ebx

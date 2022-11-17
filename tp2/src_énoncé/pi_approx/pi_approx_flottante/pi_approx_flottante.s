@@ -26,9 +26,6 @@ push %ebp       # Prologue
 mov %esp,%ebp
 push %ebx
 
-#movl iteration, %eax
-#addl $1, %eax
-
 #votre code
 xorl %ecx, %ecx
 newTerme :
@@ -48,6 +45,7 @@ sar $1, %cl
 jc signedDiv 
 jmp unsignedDiv
 
+#divison negative (resultat du terme est negatif)
 signedDiv :
 flds signe2
 fmulp
@@ -56,6 +54,7 @@ faddp
 fstps pi
 jmp inc_i
 
+#devision positive (resultat du terme est positif)
 unsignedDiv :
 flds pi
 faddp 

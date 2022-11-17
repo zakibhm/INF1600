@@ -1,31 +1,33 @@
 .data
-
+iteration : 
+.int 0
+pi:             # Valeur du ratio de pi initial
+.int 0
 .text
 .globl pi_approx_entiere
 
 pi_approx_entiere:
-movl 4(%esp), %edx
-addl $1, %edx
+movl 4(%esp), %ecx
+addl $1, %ecx
+movl %ecx, iteration
 push %ebp
 mov %esp,%ebp
 push %ebx
 
 # VOTRE CODE #
 initialisation :
-movl %edx, %ecx
-xorl %ebx, %ebx
+xorl %ecx, %ecx
 
 newTerme :
-pushl %edx
+cmpl iteration, %ecx
+jz fin
 pushl %ecx
-movl %edx, %eax
-subl %ecx, %eax
-movl %eax, %ecx
-movl %eax, %edx
+movl %ecx, %edx
 sar $1, %dl
 jc signedDiv 
 jmp unsignedDiv
 
+#divison negative (resultat du terme est negatif)
 signedDiv :
 movl $4, %eax
 addl %ecx, %ecx
@@ -33,27 +35,25 @@ addl $1, %ecx
 movl $0, %edx
 divl %ecx
 imul $-1, %eax
-addl %eax, %ebx
+addl %eax, pi
 popl %ecx
-popl %edx
-loop newTerme
+addl $1, %ecx
+jmp newTerme
 
-jmp fin 
-
+#devision positive (resultat du terme est positif)
 unsignedDiv :
 movl $4, %eax
 addl %ecx, %ecx
 addl $1, %ecx
 movl $0, %edx
 divl %ecx
-addl %eax, %ebx
+addl %eax, pi
 popl %ecx
-popl %edx
-loop newTerme
+addl $1, %ecx
+jmp newTerme
 
 fin :
-movl %ebx, %eax
-#add $8, %esp
+movl pi, %eax
 pop %ebx
 pop %ebp
 ret
