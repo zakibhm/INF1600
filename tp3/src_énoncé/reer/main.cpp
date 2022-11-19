@@ -37,7 +37,7 @@ int main()
         std::cout << "Montants amasses finaux avant retraite ASM-C INVALIDES!" << std::endl;
         std::cout << "Montant amasse ASM obtenu: " << montantAmasseFinalAvantRetraiteAsm << "\nMontant amasse final C attendu: " << montantAmasseFinalAvantRetraite << std::endl;
     }
-
+    
     std::cout << "=================================="   << std::endl;
     std::cout << "Montant a epargner a chaque annee"    << std::endl;
     std::cout << "=================================="   << std::endl;
