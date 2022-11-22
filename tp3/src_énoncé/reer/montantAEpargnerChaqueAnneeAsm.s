@@ -1,8 +1,8 @@
 .data
-montantAccumuler1: .int 0
+return: .int 0
 numerateur: .float 0
 const100: .float 100
-tauxInteret1: .float 0
+tauxInteret: .float 0
 resultat: .float 1
 .text
 .globl _ZN4Reer30montantAEpargnerChaqueAnneeAsmEv
@@ -15,13 +15,13 @@ movl %esp, %ebp
 movl 8(%ebp), %esi # esi == this
 
 pushl %esi
-call _ZN4Reer34montantAmasseFinalAvantRetraiteAsmEv
+call _ZN4Reer31montantAmasseFinalAvantRetraiteEv
 addl $4, %esp
-movl %eax, montantAccumuler1
+movl %eax, return
 filds 20(%esi) #tauxInteret
 flds const100
 fdivrp
-fildl montantAccumuler1
+fildl return
 fmulp
 fstps numerateur
 
@@ -31,14 +31,14 @@ flds const100
 fdivrp
 fld1
 faddp
-fstps tauxInteret1
+fstps tauxInteret
 movl 24(%esi), %ecx # ecx == anneeAvantRetraite
 
 puissance :
     cmpl $0, %ecx
     je finPuissance
 
-    flds tauxInteret1
+    flds tauxInteret
     flds resultat
     fmulp
     fstps resultat
@@ -51,10 +51,10 @@ finPuissance :
     fsubp 
     flds numerateur
     fdivp
-    fistpl montantAccumuler1
+    fistpl return
     fld1
-    fstps resultat # mettre resultat à 1
-    movl montantAccumuler1, %eax
+    fstps resultat # mettre resultat à 1 si on appelle cette fonction pour une deuxieme fois (appelle version assembleur)
+    movl return, %eax
     
 
 # FIN COMPLETION

@@ -1,11 +1,11 @@
 .data
 salaireRetraite: .int 0
-const100: .int 100
+const100: .float 100
 resultatPuissance: .float 1
 numerateur: .float 0
 tauxInteret: .float 0
 tauxInteretOrg: .float 0
-montantAccumuler: .int 0
+return: .int 0
 .text
 .globl _ZN4Reer34montantAmasseFinalAvantRetraiteAsmEv
 
@@ -17,10 +17,10 @@ movl %esp, %ebp
 movl 8(%ebp), %esi # esi == this
 
 pushl %esi
-call _ZN4Reer15salaireFinalAsmEv
-movl %eax, salaireRetraite
+call _ZN4Reer12salaireFinalEv
 addl $4, %esp
-fildl const100
+movl %eax, salaireRetraite
+flds const100
 fildl 16(%esi)
 fdivp
 fildl salaireRetraite
@@ -30,7 +30,7 @@ movl salaireRetraite, %eax
 movl 4(%esi), %ecx # ecx == anneesDeRetraite
 
 filds 20(%esi)
-filds const100
+flds const100
 fdivrp
 fld1 
 faddp 
@@ -52,7 +52,7 @@ finPuissance:
     flds resultatPuissance
     fsubp 
     fstps numerateur
-    filds const100
+    flds const100
     filds 20(%esi)
     fdivp
     fstps tauxInteretOrg
@@ -65,10 +65,10 @@ finPuissance:
     fdivp
     fildl salaireRetraite
     fmulp
-    fistpl montantAccumuler
+    fistpl return
     fld1
-    fstps resultatPuissance #mettre resultatPuissance à 1
-    movl montantAccumuler, %eax
+    fstps resultatPuissance #mettre resultatPuissance à 1 si on appelle cette fonction pour une deuxieme fois (appelle version assembleur)
+    movl return, %eax
 
 # FIN COMPLETION
 # NE RIEN MODIFIER APRES CETTE LIGNE

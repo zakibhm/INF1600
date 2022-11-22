@@ -1,10 +1,9 @@
 .data
-const1: .float 1
 augmentationSalariale: .float 0
 salaireDepart: .int 0
 resultatPuissance: .float 1
 div100: .float 100
-resultatFinal: .int 0
+return: .int 0
 .text
 .globl	_ZN4Reer15salaireFinalAsmEv
 
@@ -23,10 +22,8 @@ fdivrp
 fld1 
 faddp 
 fstps augmentationSalariale
-
-subl $1, %ecx
 puissance :
-    cmpl $0, %ecx
+    cmpl $1, %ecx
     je finPuissance
     flds resultatPuissance
     flds augmentationSalariale
@@ -40,10 +37,10 @@ finPuissance:
     flds resultatPuissance
     fildl salaireDepart
     fmulp
-    fistpl resultatFinal
+    fistpl return
     fld1
-    fstps resultatPuissance #mettre resultatPuissance à 1
-    movl resultatFinal, %eax
+    fstps resultatPuissance #mettre resultatPuissance à 1 si on appelle cette fonction pour une deuxieme fois (appelle version assembleur)
+    movl return, %eax
 
 # FIN COMPLETION
 # NE RIEN MODIFIER APRES CETTE LIGNE

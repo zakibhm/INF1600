@@ -1,7 +1,5 @@
 .data
 CUTOFF: .int 2 
-pivot: .int 0
-     
 .text
 .globl quicksort_s
 
@@ -65,9 +63,9 @@ for :
     pushl %ecx
     pushl %ebx
     pushl %esi
-    movl %eax, pivot
+    movl %eax, %ebx
     call swapRefs
-    movl pivot, %eax
+    movl %ebx, %eax
     popl %esi
     popl %ebx
     popl %ecx
